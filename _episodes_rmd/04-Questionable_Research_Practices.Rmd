@@ -168,6 +168,44 @@ Power (1-&beta;) in hypothesis testing is defined as the probability to detect a
 As statistical power increases, the probability of committing a type II error decreases.
 
 
+## Quiz on how many false positive results are there?
+
+> ## Quiz 4.1 
+> If the power is set to 90% and you perform 100 statistical tests of in reality true hypothesis you will have on average how many incorrect decisions (red squares)? 
+> - 20  
+> - 10  
+> - 80  
+> - 90  
+>
+{: .challenge}
+
+> ## Solution
+> 
+> F 20  
+> T 10  
+> F 80  
+> F 90  
+>
+{: .solution}
+
+> ## Quiz 4.2 
+> The positive predictive value, PPV, in the epidemiology of studies of 100 in reality true hypotheses and 900 in reality wrong hypotheses, is based on the number of false positives (black squares) and true positives (green squares). For a power of 90% this number will be 
+> - 125  
+> - 135  
+> - 875  
+> - 865  
+>
+{: .challenge}
+
+> ## Solution
+> 
+> F 125  
+> T 135  
+> F 875  
+> F 865  
+>
+{: .solution}
+
 &nbsp;
 
 &nbsp;
@@ -185,18 +223,19 @@ D Fanelli https://link.springer.com/article/10.1007/s11192-011-0494-7
   
 &nbsp;
 
-## p-hacking, a definition
- 
+>## p-hacking, a definition
+>
 p-hacking: Tune your data analysis in a way that you achieve a significant p-value in situations where it would have been non-significant. (F. Schönbrodt)
-
+>
 How could you tune your data analysis to get to a significant result?
-
+>
 - Outcome switching
 - Selective reporting
 - Sample until significance
 - Uncorrected multiple testing
 - Subgroup analyses
 - Adapt your measurement process
+{: .checklist}
 
 Try this out with the shiny app by F. Schönbrodt http://shinyapps.org/apps/p-hacker/
   
@@ -222,7 +261,26 @@ The authors report on nutritional research and how it is in general done. They a
 
 Image source: https://hildabastian.net/
 
+## Quiz on what is p-hacking?
 
+> ## Quiz 4.3 
+> In a p-hacking perspective how could you tune your data analysis to get to a significant result? 
+> 
+ - Outcome switching  
+ - Complete reporting  
+ - Pre-specified subgroup analysis  
+ - Correct for multiple testing  
+>
+{: .challenge}
+
+> ## Solution
+> 
+ T Outcome switching  
+ F Complete reporting  
+ F Pre-specified subgroup analysis  
+ F Correct for multiple testing  
+>
+{: .solution}
 
 &nbsp;
 
@@ -278,6 +336,43 @@ Note: The terminology "positive" study refers in this specific situation to the 
 
 Image source: https://www.force11.org/blogs/nina-hedevang
 
+## Quiz on what is publication bias?
+
+> ## Quiz 4.4 
+> A so-called negative study is 
+> 
+ - A study where the effect of an intervention has a positive impact on a desirable outcome (e.g. a drug decreases the risk of disease)  
+ - A study where no statistical significance was found  
+ - A study where the effect of an intervention has a negative impact on a desirable outcome (e.g. a drug increases the risk of disease)  
+>
+{: .challenge}
+
+> ## Solution
+> 
+ F A study where the effect of an intervention has a positive impact on a desirable outcome (e.g. a drug decreases the risk of disease)  
+ F A study where no statistical significance was found  
+ T A study where the effect of an intervention has a negative impact on a desirable outcome (e.g. a drug increases the risk of disease)  
+>
+{: .solution}
+
+
+
+> ## Quiz 4.5 
+> Publication bias is the failure to publish the results of a study on the basis of the direction or strength of the study findings.
+> 
+ - Non-publication impacts the accuracy of evidence synthesis negatively.  
+ - Non-publication has no impact on the accuracy of evidence synthesis.  
+ - Non-publication impacts the accuracy of evidence synthesis positively.  
+>
+{: .challenge}
+
+> ## Solution
+> 
+ T Non-publication impacts the accuracy of evidence synthesis negatively.  
+ F Non-publication has no impact on the accuracy of evidence synthesis.  
+ F Non-publication impacts the accuracy of evidence synthesis positively.  
+>
+{: .solution}
 
 &nbsp;
 
@@ -354,6 +449,44 @@ O'Boyle et al. https://journals.sagepub.com/doi/abs/10.1177/0149206314527133
 
 ![]({{ page.root }}/fig/04-Significusposthoc.png){: height="500px"}
 
+## Quiz on what is HARKing?
+
+> ## Quiz 4.6 
+> If you were a cardiac infarction patient and you were of zodiac sign Gemini or Libra would you rather  
+> 
+ - receive aspirin therapy?  
+ - receive no aspirin therapy?  
+ - receive a daily horoscope?  
+>
+{: .challenge}
+
+> ## Solution
+> 
+This is not a serious question! From the example we saw in the course you are not able to infer if aspirin therapy seems to be beneficial or not. But it is clear that the zodiac sign has no influence. disease)  
+>
+{: .solution}
+
+
+> ## Quiz 4.7 
+> Preregistration can be a solution to problems with QRPs because
+> 
+ - HARKing becomes much harder (but still possible)  
+ - it helps avoid researcher bias, i.e. bias due to enthusiasm for the project  
+ - it renders the research record more complete (e.g. in case there is no publication)
+ - it provides a control mechanism for universities on their researchers
+>
+{: .challenge}
+
+> ## Solution
+> 
+ T HARKing becomes much harder (but still possible)  
+ T it helps avoid researcher bias, i.e. bias due to enthusiasm for the project  
+ T it renders the research record more complete (e.g. in case there is no publication). 
+ F it provides a control mechanism for universities on their researchers  
+>
+{: .solution}
+
+
 &nbsp;
 
 &nbsp;
@@ -372,32 +505,34 @@ Recall:
   
 From the code of conduct it is clear that p-hacking, non-publication of so-called negative or null results and HARKing are questionable research practices (QRP). We will discuss some strategies to avoid them:
 
+>
 - why study (pre)-registration is important
 - where and how to register a study
 - why appropriate reporting is important and how to achieve it
+{: .checklist}
 
 See also the General Resources and Approaches course.
   
 
 &nbsp;
 
-## (Pre)- Registration
-  
+>## (Pre)- Registration
+>  
 Preregistration is a time-stamped read-only research protocol created **before the study** 
 containing as a minimum:
-
+>
 - Hypotheses
 - Description of population, inclusion/exclusion criteria, sample size 
 - Data collection procedure or database used
 - General design
 - Variables (primary vs. secondary, explanatory vs. dependent variables, raw vs manipulated variables)
 - Specification on how the key confirmatory analyses will be conducted under all probable scenarios
-  
+{: .checklist}  
 
 &nbsp;
 
-##  Why should you (pre)-register your study?
-  
+>##  Why should you (pre)-register your study?
+>
 - Adds credibility to research
 - Sets a time-stamped record of ideas
 - Let's researchers think more deeply about research and planning
@@ -405,67 +540,67 @@ containing as a minimum:
 - Can save a lot of time
 - Documents research and career
 - Allows study to be included in meta research projects
-  
+{: .checklist}
+
 
 &nbsp;
 
-## Where to register?
-  
+>## Where to register?
+>  
 - Clinical trials, registry for clinical trials since 1997 https://clinicaltrials.gov/
-
+>
 - OSF, embargo possible for up to 4 years https://osf.io/ 
-
+>
 - aspredicted.org, protocols can be private forever https://aspredicted.org/
-
+>
 - Preclinical trials, comprehensive listing of preclinical animal study protocols https://preclinicaltrials.eu/
 See the General Resources and Approaches course for more examples.
-
+{: .checklist}
   
 
 &nbsp;
 
-## Challenges of (pre)-registration
-  
+>## Challenges of (pre)-registration
+>  
 - Changes regarding data collection (e.g., less observations)
 - Violation of statistical assumptions, e.g. distribution of variables
 - Possible variables unknown until we actually get the data
 - Many experiments, large datasets, i.e. discovery science
 - Can somebody scoope me?
-  
+{: .checklist}  
 
 &nbsp;
 
-## Solutions: challenges of (pre)-registration
-  
-- Changes regarding data collection (e.g., less observations)
-
-`**Solution** document changes to procedures and data acquisition such that it is possible to assess their impact.
-
-- Violation of statistical assumptions, e.g. distribution of variables
-
-`**Solution** pre-register decision tree
-
-- Possible variables unknown until we actually get the data
-
-`**Solution** look at meta-data or subset of full data for the analysis plan 
-
-- Many experiments, large datasets, i.e. discovery science
-
-`**Solution** Initial experiment exploration, follow-up experiment for confirmation 
-
-- Can somebody scoope me?
-
-`**Solution** Set embargo, registration is time-stamped
-  
+>## Solutions: challenges of (pre)-registration
+>  
+- Changes regarding data collection (e.g., less observations) 
+> **Solution** document changes to procedures and data acquisition such that it is possible to assess their impact.
+>
+>
+- Violation of statistical assumptions, e.g. distribution of variables 
+> **Solution** pre-register decision tree 
+>
+>
+- Possible variables unknown until we actually get the data 
+> **Solution** look at meta-data or subset of full data for the analysis plan 
+>
+> 
+- Many experiments, large datasets, i.e. discovery science 
+> **Solution** Initial experiment exploration, follow-up experiment for confirmation 
+>
+>
+- Can somebody scoope me? 
+> **Solution** Set embargo, registration is time-stamped
+{: .checklist}  
 
 &nbsp;
 
-## And when writing the article?
-  
+>## And when writing the article?
+> 
 - Include link to your (pre)-registration &rArr; increase credibility and facilitate meta research
 - Report the results of all (pre)-registered analyses
 - Any unregistered analysis must be transparently reported
-  
+{: .checklist}  
 
 &nbsp;
 
@@ -505,8 +640,8 @@ C Allen and D Mehler https://journals.plos.org/plosbiology/article?id=10.1371/jo
 
 &nbsp;
 
-## Reporting guidelines
-  
+>## Reporting guidelines
+>  
 - Simple, structured tool to use while writing manuscripts. 
 - Providing a minimum list of information needed to ensure a manuscript can be, for example:
   - understood by a reader
@@ -515,6 +650,7 @@ C Allen and D Mehler https://journals.plos.org/plosbiology/article?id=10.1371/jo
   - included in a systematic review
 - Guiding authors in reporting a specific type of research
 - Developed using explicit methodology
+{: .checklist}
 
 **Examples:**
 
@@ -540,6 +676,24 @@ Below is the start of the general reporting item list, no matter what exact stud
 
 ![]({{ page.root }}/fig/04-JARStable1.png)
 
+## Quiz on how to avoid/reduce these Questionable Research Practices?
+
+> ## Quiz 4.8 
+> Reporting guidelines can be a solution to problems with QRPs because
+> 
+ - following them guarantees a high quality study  
+ - being required to follow them makes selective reporting harder  
+ - using reporting guidelines already at the outset raises awareness of good practice  
+>
+{: .challenge}
+
+> ## Solution
+> 
+ F following them guarantees a high quality study  
+ T being required to follow them makes selective reporting harder  
+ T using reporting guidelines already at the outset raises awareness of good practice  
+>
+{: .solution}
 
 
 &nbsp;
