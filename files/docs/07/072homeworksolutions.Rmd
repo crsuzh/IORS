@@ -1,0 +1,141 @@
+---
+title: "Week 07 Tools for meta data"
+subtitle: "Open and reproducible science: dependable computations and statistics"
+output: pdf_document
+---
+
+
+```{r setup, include=FALSE}
+# Useful packages: 
+library(tidyverse)
+library(kableExtra)
+library(biostatUZH)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Homework solutions
+
+In this exercise we will explore an example dataset which is part of the palmerpenguins R package. More precisely we will explore the associated metadata of the Adelie data set on which the package is party based on.
+
+You can find the Adelie data set and its XML meta data starting from the section Data citations on https://allisonhorst.github.io/palmerpenguins/#references
+
+Or you can download the associated meta data directly using this link: https://portal.edirepository.org/nis/metadataviewer?packageid=knb-lter-pal.219.5&contentType=application/xml
+
+Download is also possible directly within R with 
+```{r}
+download.file("https://portal.edirepository.org/nis/metadataviewer?packageid=knb-lter-pal.219.5&contentType=application/xml", 
+              here::here("data","adelie.xml"))
+```
+
+
+# Exercise
+
+Read the data into R using the `EML` package and answer the following questions:
+```{r}
+library("EML")
+eml <- read_eml(here::here("data","adelie.xml"))
+```
+
+## 1
+How many attributes does the data table have? Use the function `get_attributes` of the `EML`package.
+```{r}
+attributes<-get_attributes(eml$dataset$dataTable$attributeList)
+dim(attributes[[1]])[2]
+```
+There are `r dim(attributes[[1]])[2]` attributes in the data table.
+
+## 2
+Inspect the attribute list. Which attributes correspond to the bill length and depth provided by the `palmerpenguins` package? 
+```{r}
+attributes[[1]][10:11,2:3]
+```
+`Culmen Length` corresponds to bill length and `Culmen Depth` corresponds to bill depth.
+
+
+## 3
+Find the information on the corresponding measurement unit of bill length and depth.
+
+```{r}
+attributes[[1]][10:11,8]
+```
+
+The unit of measurement of `Culmen Length` and `Culmen Depth` are in `r attributes[[1]][10,8]`.
+
+## 4
+Which numerical variables have been measured but are not contained in the `palmerpenguins` package?
+
+```{r}
+library(palmerpenguins)
+names(penguins)
+attributes[[1]][15:16,c(2,3,7)]
+```
+
+Attributes `r attributes[[1]][15:16,2]` are missing in the `palmerpenguins` package.
+
+## 5
+Find the url of the file containing the data in the `physical` information of the meta data.
+```{r}
+eml$dataset$dataTable$physical$distribution
+```
+
+The url of the file containing the data in the `physical` information is `r eml$dataset$dataTable$physical$distribution$online$url`.
+
+
+## 6 (2 points)
+Does the meta data contain information on the precise geographic region or the species?
+```{r}
+coverage <- eml_get(eml, "coverage")
+names(coverage)
+
+```
+
+No, it only contains temporal information.
+
+## 7 (2 points)
+Find the methods description and describe how was the sex of the penguins was determined?
+```{r, results='asis'}
+cat(eml_get(eml, "methods")$methodStep$description$section)
+```
+
+## 8
+What is the publication date of the data?
+```{r}
+eml$dataset$pubDate
+```
+
+The publication date is `r eml$dataset$pubDate`
+
+## 9
+What is the email address of the creator of the dataset?
+```{r}
+cr <- eml_get(eml, "creator")
+cr[[2]]$electronicMailAddress
+```
+
+The email address of the creator is `r cr[[2]]$electronicMailAddress`
+
+## 10
+How many keywords are listed?
+```{r}
+ky <- eml_get(eml, "keywordSet")
+length(ky$keyword)
+```
+
+There are `r length(ky$keyword)` keywords listed.
+
+## Submission
+
+Homework submission has two parts:
+
+1. Push your Rmd file to Gitlab.
+2. Enter the corresponding Gitlab pages URL into the Open edX text box in the next unit.
+
+*Note*: the URL will be of the form  
+`https://opensciencecourse.pages.uzh.ch/hs22_dcas/hs22_dcas/USERNAME_Homework_06.html`, where `USERNAME` is your Gitlab user name. E.g for user `jdoe`:  
+`https://opensciencecourse.pages.uzh.ch/hs22_dcas/hs22_dcas/jdoe_Homework_06.html`
+
+Your submission on Open edX will be peer reviewed. Staff will perform random checks on the peer review.
+
+Your submission on Gitlab will be automatically checked, points from the Open edX assessment may be decreased if your submission is not correct.
+

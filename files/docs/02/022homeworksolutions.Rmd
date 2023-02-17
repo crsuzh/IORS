@@ -1,0 +1,91 @@
+---
+title: "Week 02 Version control"
+subtitle: "Open and reproducible science: dependable computations and statistics"
+output: pdf_document
+---
+
+# Homework - solution
+
+## 4 - R Markdown 
+
+## 4.3
+
+
+### 4.3.1
+
+Print the summary of the `penguins` dataset from the `palmerpenguins` R package using `knitr::kable`. How many observations are there? How many different species of penguins?
+
+```{r}
+library(palmerpenguins)
+library(ggplot2)
+```
+
+```{r}
+knitr::kable(summary(penguins))
+```
+
+
+### 4.3.2
+
+Order the dataset by `bill_length_mm` (ascending) and print the top 7 lines and the bottom 4 lines using `knitr::kable`.
+
+```{r}
+penguins_ordered <- dplyr::arrange(penguins, bill_length_mm)
+knitr::kable(rbind(head(penguins_ordered,n=7),tail(penguins_ordered,n=4)))
+```
+
+
+### 4.3.3
+
+Do a scatter plot (using the package `ggplot2`) of `bill_length_mm` (x-axis) vs. `bill_depth_mm` (y-axis). 
+
+```{r}
+ggplot(penguins) +
+  geom_point(aes(bill_length_mm,bill_depth_mm,color=species))
+```
+
+### 4.3.4
+
+Fit a linear model (use `lm`) with `bill_length_mm` as a predictor and `bill_depth_mm` as the response. Add the fitted linear relationship to the plot from the previous exercise and display the new plot. Is there an association between `bill_length_mm` and `bill_depth_mm`? What is the sign of the slope?
+
+```{r}
+lmfit1 <- summary(lm(bill_depth_mm ~ bill_length_mm, penguins))
+lmfit1
+ggplot(penguins) +
+  geom_point(aes(bill_length_mm,bill_depth_mm)) +
+  geom_smooth(aes(bill_length_mm,bill_depth_mm),method = "lm", se = FALSE)
+```
+
+
+### 4.3.5
+
+Color the points from the plot from the previous plot according to species. Describe your observations.
+
+```{r}
+ggplot(penguins) +
+  geom_point(aes(bill_length_mm,bill_depth_mm,color=species)) +
+  geom_smooth(aes(bill_length_mm,bill_depth_mm),method = "lm", se = FALSE)
+```
+
+### 4.3.6 
+
+Add `species` as a predictor to your model and replot the previous plot with the new regression lines (there should be three, one for each species). Is there an association between `bill_length_mm` and `bill_depth_mm`? What is the sign of the slope?
+
+
+```{r}
+lmfit2 <- summary(lm(bill_depth_mm ~  bill_length_mm + species, penguins))
+ggplot(penguins) +
+  geom_point(aes(bill_length_mm,bill_depth_mm,color=species)) +
+  geom_smooth(aes(bill_length_mm,bill_depth_mm,color=species),method = "lm", se = FALSE)
+```
+
+
+
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;

@@ -1,0 +1,779 @@
+---
+source: Rmd
+title: "Questionable Research Practices (QRPs)"
+teaching: 0
+exercises: 0
+questions: 
+  - "1. "
+  - "2. "
+  - "3. "
+  - 
+objectives: 
+  - "tbd"
+  - "by eva"
+keypoints:
+  - "tbd"
+  - "by eva"
+---
+
+```{r, include=FALSE}
+source("../bin/chunk-options.R")
+knitr_fig_path("04-")
+```
+
+![]({{ page.root }}/fig/Repro_Kreislauf_horizontal_halb.png)
+
+
+>## This week we learn some background and a few simple habits favoring reproducibility
+>
+1. How many false positive results are there?  
+>
+2. What is p-hacking?
+>
+3. What is HARKing?
+>
+4. What is publication bias?
+>
+5. How to avoid/reduce these Qestionable Research Practices?
+{: .checklist}
+
+&nbsp;
+
+&nbsp;
+
+# 1. How many false positive results are there?
+
+## How many false positive results are there?
+
+The goal of this first input is to understand the **connection** between the parameters of statistical testing procedures, i.e. **level of significance and power, and the number of true and false positive results**.
+
+We use a completely hypothetical situation for that since one never knows in an empirical research situation if a true or a false positive result has been shown. 
+
+It is also important to note that null hypothesis significance testing procedures are not "symmetrical" in the sense that there may be evidence for a hypothesis (the smaller the p-value the stronger the evidence) but if there is a lack of evidence for the hypothesis one cannot conclude that it is false. **Absence of evidence is not evidence of absence**.
+
+Moreover we assume in our hypothetical situation that 1 in 10 scientific hypotheses are true. This is an optimistic approach in itself.
+
+Finally, there are many critiques of the null hypothesis significance testing procedure, e.g. the asymmetry between the restricted null hypothesis (effect is exactly zero) and the much larger alternative (effect is anything but zero). We do not enter this discussion here and hence our hypothetical situation is a gross simplification only considering this one approach to statistical investigation.
+
+&nbsp;
+
+&nbsp;
+
+## The epidemiology of studies
+
+![]({{ page.root }}/fig/04-studies1.png){: height="400px"} 
+
+Scientific hypothesis:
+
+There is an effect of a new treatment (an exposure, an intervention) in a specific population?
+
+**Assume: 1 in 10 scientific hypotheses are true.** 
+
+&rArr; Example: 100 of 1000 hypotheses are true, each square represents one hypothesis, the green ones are true the grey ones are false
+
+&rArr; 1000 statistical tests
+
+![]({{ page.root }}/fig/04-table1.png){: height="200px"} 
+
+&nbsp;
+
+## The epidemiology of studies
+
+![]({{ page.root }}/fig/04-studies1.png){: height="400px"} 
+
+
+
+**Calculate 1000 p-values**
+
+
+- p < 0.05: The evidence in the data is in favor of the hypothesis, i.e. of the effect being non-zero.
+
+**BUT: we do not know it’s true**
+
+&nbsp;
+
+- p > 0.05: There is not enough evidence in favor of the hypothesis.
+
+**BUT: we do not know it’s false**
+
+
+**Absence of evidence is not evidence of absence!**
+
+&nbsp;
+
+## The epidemiology of studies
+
+![]({{ page.root }}/fig/04-studies2.png){: height="400px"} 
+
+
+900 statistical tests of in reality **wrong hypotheses** 
+
+&rArr; on average 5% false positive decisions
+
+&rArr; 900*0.05 = 45 incorrect decisions (black squares)
+
+&rArr; 900 - 45 = 855 correct decisions (grey squares)
+
+
+![]({{ page.root }}/fig/04-table2.png){: height="200px"} 
+
+&nbsp;
+
+## The epidemiology of studies
+
+![]({{ page.root }}/fig/04-studies3.png){: height="400px"} 
+
+100 statistical tests of in reality **true hypotheses** 
+
+&rArr; on average 20% false negative decisions (if **power** is set to 80%)
+
+&rArr;  100*0.2 = 20 incorrect decisions (red squares)
+
+&rArr;  100 - 20 = 80 correct decisions (green squares)
+
+![]({{ page.root }}/fig/04-table3.png){: height="200px"} 
+
+&nbsp;
+
+## The epidemiology of studies
+
+![]({{ page.root }}/fig/04-studies4.png){: height="400px"} 
+
+Green and black squares: 125 hypotheses are supposed to be true. 
+
+This is unreliable because:
+
+Correct only for 80/125 = 64% of them! PPV
+
+
+Grey and red squares: 875 hypotheses are supposed to be wrong. 
+
+This is reliable because:
+
+Correct for 855/875 = 98% of them! NPV
+
+![]({{ page.root }}/fig/04-table4.png){: height="200px"} 
+
+&nbsp;
+
+The above explanations were partly inspired by the video by the Economist https://youtu.be/TosyACdsh-g 
+
+&nbsp;
+
+## Statistical power
+
+![]({{ page.root }}/fig/04-power.png){: height="200px"} 
+
+Power (1-&beta;) in hypothesis testing is defined as the probability to detect an effect when there really is one.
+As statistical power increases, the probability of committing a type II error decreases.
+
+
+&nbsp;
+
+&nbsp;
+
+
+# 2. What is p-hacking?
+
+## Positive results
+ 
+In light of the epidemiology of studies how do you interpret these numbers?
+
+![]({{ page.root }}/fig/04-fanellipositive.png){: height="400px"}
+
+D Fanelli https://link.springer.com/article/10.1007/s11192-011-0494-7
+  
+&nbsp;
+
+## p-hacking, a definition
+ 
+p-hacking: Tune your data analysis in a way that you achieve a significant p-value in situations where it would have been non-significant. (F. Schönbrodt)
+
+How could you tune your data analysis to get to a significant result?
+
+- Outcome switching
+- Selective reporting
+- Sample until significance
+- Uncorrected multiple testing
+- Subgroup analyses
+- Adapt your measurement process
+
+Try this out with the shiny app by F. Schönbrodt http://shinyapps.org/apps/p-hacker/
+  
+
+&nbsp;
+
+## Example
+ 
+Read the fivethirtyeight article "You Can’t Trust What You Read About Nutrition"
+https://fivethirtyeight.com/features/you-cant-trust-what-you-read-about-nutrition/
+
+The authors report on nutritional research and how it is in general done. They also perform a small study themselves, see the table of results "Our shocking new study finds that ..." in the article.
+
+![]({{ page.root }}/fig/04-538.png){: height="400px"}
+
+
+&nbsp;
+
+## Bingo
+
+
+![]({{ page.root }}/fig/04-phacking.png){: height="400px"}
+
+Image source: https://hildabastian.net/
+
+
+
+&nbsp;
+
+&nbsp;
+
+
+# 3. What is publication bias?
+
+## Definition
+ 
+
+Read the definition of [publication bias](https://catalogofbias.org/biases/publication-bias/#:~:text=Dickersin%20%26%20Min%20define%20publication%20bias,evidence%20in%20a%20given%20area) in the Oxford University's Catalogue of Bias.
+
+Publication bias may be one explanation for the numbers in this graph:
+
+![]({{ page.root }}/fig/04-fanellipubbias.png){: height="500px"}
+
+D Fanelli https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0010068
+  
+
+&nbsp;
+
+## Example
+ 
+In the article "Selective Publication of Antidepressant Trials and Its Influence on Apparent Efficacy" the authors obtained reviews from the Food and Drug Administration (FDA) for studies of 12 antidepressant agents involving 12,564 patients. They conducted a systematic literature search to identify matching publications.
+
+Among 74 FDA-registered studies 38 were considered having a positive result by the FDA and 36 a negative result. The resulting publications were:
+
+|Positive|Published|Not published|Published as positive||
+|---|---|---|---|---|
+|yes|37|1||38|
+|no|3|22|11|36|
+||40|23|11|74|
+
+The studies in the column Published as positive were studies that were considered negative by the FDA but the resulting publication was phrased in a way that Turner and co-authors judged that the publication portrayed the study to have a positive result.
+
+These numbers indicate that whether and how the studies were published was associated with the study outcome. 
+
+E Turner et al. https://www.nejm.org/doi/full/10.1056/nejmsa065779
+
+Note: The terminology "positive" study refers in this specific situation to the antidepressant agent under study having a positive effect on the health outcome. A negative study could mean a null effect or a detrimental effect of the agent. This connotation is not appropriate in other situations and should be avoided.
+  
+
+![]({{ page.root }}/fig/04-negativeresults.png){: height="400px"}
+
+&nbsp;
+
+
+## File drawer problem
+
+
+![]({{ page.root }}/fig/04-filedrawer.png){: height="400px"}
+
+Image source: https://www.force11.org/blogs/nina-hedevang
+
+
+&nbsp;
+
+&nbsp;
+
+
+# 4. What is HARKing?
+
+## Definition
+ 
+
+The term "HARKing" has been coined by Kerr in 1998:
+
+> _"[...] when I refer to HARKing, I mean something more specific --- presenting post hoc hypotheses in a research report as if they were, in fact, a priori hypotheses."_
+
+N Kerr https://journals.sagepub.com/doi/10.1207/s15327957pspr0203_4
+
+![]({{ page.root }}/fig/04-randommedicalnews.png){: height="500px"}
+
+Cartoon by Jim Borgman, first published by the Cincinnati Inquirer and King Features Syndicate 1997 Apr 27; Forum section: 1 
+  
+
+&nbsp;
+
+## Example: Aspirin therapy in cardiac infarction patients
+
+![]({{ page.root }}/fig/04-zodiac.png){: height="400px"}
+
+
+During the publication process of a randomized clinical trial among cardiac infarction patients of aspirin therapy vs. placebo the **editors of the journal asked for 40 additional subgroup analyses** to be added to the publication.
+
+None of these analyses was pre-specified, but the authors agreed under the condition that they could add an additional subgroup analysis themselves.
+
+The authors chose to use subgroups by zodiac sign of the patient, Gemini and libra vs all others and "showed" that for Gemini and Libra there is a slightly higher mortality in the aspirin arm compared to placebo, wheres for all other signs aspirin was significantly superior.
+
+The authors concluded:
+
+“All these subgroup analyses should, perhaps, be taken less as evidence about who benefits than as evidence that such analyses are potentially misleading.”
+
+ 
+ISIS-2 Collaborative Group (1988)
+https://www.jameslindlibrary.org/isis-2-second-international-study-of-infarct-survival-collaborative-group-1988/
+
+See also K Schulz and A Grimes https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(05)66516-6
+
+Strictly speaking this example shows no HARKing but it shows how it would be easy to arrive at a situation in which researchers are tempted to HARK and also how wrong this can easily be.
+  
+
+&nbsp;
+
+
+## Example: The Chrysalis Effect: How Ugly Initial Results Metamorphosize Into Beautiful Articles   
+
+
+O'Boyle and co-authors systematically searched for **dissertations in a management-relevant topic published between 2000 and 2012**. They excluded dissertations that either were not from management or applied psychology departments or were not published in management or applied psychology journals as well as qualitative research, case studies, systematic reviews (i.e., meta-analyses), and dissertations that lacked formal hypotheses.
+
+They systematically searched for the **corresponding publications** and identified 142 dissertations where there was overwhelming evidence that it had been subsequently published in a refereed journal.
+
+Then the hypotheses of dissertation and publication were coded using two raters, again a systematic process allowing to observe **if and how the hypotheses changed from dissertation to publication**. Here is what they found:
+
+&nbsp;
+
+> _"Across both the dissertations and journal articles, we recorded 2,311 hypotheses. The dissertations tested 1,978 hypotheses and their corresponding publications tested 978 hypotheses, a net change of 1,000. There were 645 common or retained hypotheses that remained essentially unchanged from dissertation to journal article. Of these common hypotheses, 373 were supported in the dissertation (57.8%, a ratio of supported to unsupported hypotheses of 1.37:1), and 412 were supported in the journal article (63.9%, a ratio of supported to unsupported hypotheses of 1.77:1)."_
+
+
+> _"If the Chrysalis Effect were present, then changes to data, variables, and boundary conditions would more likely affect the 272 unsupported dissertation hypotheses than the 373 supported dissertation hypotheses. [...] Among the dissertation hypotheses not supported with statistical significance, 56 of 272 (20.6%) turned into statistically significant journal hypotheses as compared to 17 of 373 (4.6%) supported dissertation hypotheses becoming statistically nonsignificant journal hypotheses."_
+
+O'Boyle et al. https://journals.sagepub.com/doi/abs/10.1177/0149206314527133
+  
+
+&nbsp;
+
+
+
+![]({{ page.root }}/fig/04-Significusposthoc.png){: height="500px"}
+
+&nbsp;
+
+&nbsp;
+
+
+# 5. How to avoid/reduce these Questionable Research Practices?
+
+## Code of conduct for scientific integrity
+
+![]({{ page.root }}/fig/04-kodex.png){: height="200px"}
+
+Recall:
+
+> _“Reliability, honesty, respect, and accountability are the basic principles of scientific integrity. They underpin the independence and credibility of science and its disciplines as well as the accountability and **reproducibility** of research findings and their acceptance by society. As a system operating according to specific rules, science has a responsibility to create the structures and an environment that foster scientific integrity.”_
+
+  
+From the code of conduct it is clear that p-hacking, non-publication of so-called negative or null results and HARKing are questionable research practices (QRP). We will discuss some strategies to avoid them:
+
+- why study (pre)-registration is important
+- where and how to register a study
+- why appropriate reporting is important and how to achieve it
+
+See also the General Resources and Approaches course.
+  
+
+&nbsp;
+
+## (Pre)- Registration
+  
+Preregistration is a time-stamped read-only research protocol created **before the study** 
+containing as a minimum:
+
+- Hypotheses
+- Description of population, inclusion/exclusion criteria, sample size 
+- Data collection procedure or database used
+- General design
+- Variables (primary vs. secondary, explanatory vs. dependent variables, raw vs manipulated variables)
+- Specification on how the key confirmatory analyses will be conducted under all probable scenarios
+  
+
+&nbsp;
+
+##  Why should you (pre)-register your study?
+  
+- Adds credibility to research
+- Sets a time-stamped record of ideas
+- Let's researchers think more deeply about research and planning
+- Helps remember your exact a-priori hypotheses
+- Can save a lot of time
+- Documents research and career
+- Allows study to be included in meta research projects
+  
+
+&nbsp;
+
+## Where to register?
+  
+- Clinical trials, registry for clinical trials since 1997 https://clinicaltrials.gov/
+
+- OSF, embargo possible for up to 4 years https://osf.io/ 
+
+- aspredicted.org, protocols can be private forever https://aspredicted.org/
+
+- Preclinical trials, comprehensive listing of preclinical animal study protocols https://preclinicaltrials.eu/
+See the General Resources and Approaches course for more examples.
+
+  
+
+&nbsp;
+
+## Challenges of (pre)-registration
+  
+- Changes regarding data collection (e.g., less observations)
+- Violation of statistical assumptions, e.g. distribution of variables
+- Possible variables unknown until we actually get the data
+- Many experiments, large datasets, i.e. discovery science
+- Can somebody scoope me?
+  
+
+&nbsp;
+
+## Solutions: challenges of (pre)-registration
+  
+- Changes regarding data collection (e.g., less observations)
+
+`**Solution** document changes to procedures and data acquisition such that it is possible to assess their impact.
+
+- Violation of statistical assumptions, e.g. distribution of variables
+
+`**Solution** pre-register decision tree
+
+- Possible variables unknown until we actually get the data
+
+`**Solution** look at meta-data or subset of full data for the analysis plan 
+
+- Many experiments, large datasets, i.e. discovery science
+
+`**Solution** Initial experiment exploration, follow-up experiment for confirmation 
+
+- Can somebody scoope me?
+
+`**Solution** Set embargo, registration is time-stamped
+  
+
+&nbsp;
+
+## And when writing the article?
+  
+- Include link to your (pre)-registration &rArr; increase credibility and facilitate meta research
+- Report the results of all (pre)-registered analyses
+- Any unregistered analysis must be transparently reported
+  
+
+&nbsp;
+
+## Registered reports
+  
+Two stage review
+
+First stage: protocol with hypotheses, methods and analysis plan is reviewed  
+&rArr; in-principle acceptance
+
+Second stage: Authors resubmit after completion of study incorporating first-stage review recommendations, paper is quality-controlled before publication
+
+**&rArr; it does not matter any more if effects are significant or not!**
+
+
+Dozens of journals already implemented RR: Cortex, BMJ Journals, Nature Hum Behav., eNeuro, etc., see https://cos.io/rr/ 
+  
+
+&nbsp;
+
+## Preregistration shows an effect (for RR)**
+  
+**Preregistration and RR are becoming more frequent**
+
+![]({{ page.root }}/fig/04-rr.png)
+
+K Kupferschmidt https://www.science.org/doi/full/10.1126/science.361.6408.1192
+
+&nbsp;
+
+**Sharp rise in null findings in the registered report (RR) setting**
+
+![]({{ page.root }}/fig/04-rr2.png)
+
+C Allen and D Mehler https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.3000246
+  
+
+&nbsp;
+
+## Reporting guidelines
+  
+- Simple, structured tool to use while writing manuscripts. 
+- Providing a minimum list of information needed to ensure a manuscript can be, for example:
+  - understood by a reader
+  - replicated by a researcher
+  - used by a doctor to make a clinical decision
+  - included in a systematic review
+- Guiding authors in reporting a specific type of research
+- Developed using explicit methodology
+
+**Examples:**
+
+- Equator network http://www.equator-network.org/about-us/what-is-a-reporting-guideline/
+- M McLeod et al. https://www.pnas.org/content/118/17/e2103238118
+- M Appelbaum et al. https://doi.apa.org/fulltext/2018-00750-002.html
+
+See the General Resources and Approaches course for more examples.
+  
+
+&nbsp;
+
+## Items from JARS
+  
+
+Journal Article Reporting Standards for Quantitative Research in Psychology: The APA Publications and Communications Board Task Force Report (JARS), M Appelbaum et al. https://doi.apa.org/fulltext/2018-00750-002.html
+
+JARS contains a very detailed list of reporting items for several types of studies in psychological research. It starts with a flow chart distinguishing between cases.
+
+![]({{ page.root }}/fig/04-amp_73_1_3_fig1a.png){: height="200px"}
+
+Below is the start of the general reporting item list, no matter what exact study type. Look at some examples, e.g. for the abstract and the section describing the methods. For more information see the entire article.
+
+![]({{ page.root }}/fig/04-JARStable1.png)
+
+
+
+&nbsp;
+
+&nbsp;
+
+
+# Homework
+
+```{r setup, include=FALSE}
+# Useful packages: 
+library(tidyverse)
+library(kableExtra)
+library(biostatUZH)
+knitr::opts_chunk$set(echo = FALSE, results = "hide", fig.show='hide')
+```
+
+
+We will work on the data collected for the fivethirtyeight article “You Can’t Trust What You Read About Nutrition” https://fivethirtyeight.com/features/you-cant-trust-what-you-read-about-nutrition/
+
+The complete data that were produced are available here along with analysis code:
+https://www.kaggle.com/fivethirtyeight/fivethirtyeight-nutrition-studies-dataset
+
+
+
+Read in the p-values that have been calculated for the article. Note that there is an error in one name of an FFQ variable.
+```{r 'read in p-values', echo = TRUE}
+# load the results of the original analysis
+pvals_orig <- read.csv(here::here("files/docs/04/data/p_values_analysis.csv"))
+pvals_orig$food[ is.na(pvals_orig$food)] <- "BREAKFASTSANDWICHFREQ"
+```
+
+
+Prepare an Rmd file providing solutions for the following tasks. Name the file `Homework_03.Rmd` and place it in the `homework` directory, i.e. `homework/Homework_03.Rmd`. Using **exactly** these file and directory names is important for automated testing of your submission. If you you do not adhere to these instructions the homework will be considered to be not handed in. **Make sure your code is visible in Homework_03.html.**
+
+ 
+## Task 1
+ 
+Assuming that 10% of the performed regressions are quantifying "true" associations and that the sample size of 54 corresponds to a power of 60% (which is extremely wishful thinking) calculate the (hypothetical) positive predictive value in this situation. Assume a significance level of 5%.
+
+```{r 'ppv'}
+siglevel <- 0.05
+# suppose 10 % of the hypothesis are indeed true
+perctrue <- 0.1
+# No. false positives on average
+nofalsepos <- dim(pvals_orig)[1]*(1- perctrue) * siglevel
+# notrueneg <- dim(pvals_orig)[1]*(1- perctrue) * (1-siglevel)
+
+# suppose 54 respondents correspond to a power of 60%
+suppower <- 0.6
+# No. true positives on average
+# nofalseneg <- dim(pvals_orig)[1]*perctrue * (1 - suppower)
+notruepos <- dim(pvals_orig)[1]*perctrue * suppower
+
+ppv <- notruepos/(notruepos + nofalsepos)
+ppv
+```
+ 
+
+## Task 2
+ 
+How many positive decisions have been taken at the 5% significance level? How many are hypothetically really true under the parameters of Task 1?
+```{r 'true positives'}
+noposdec <- sum(pvals_orig$p_values < 0.05, na.rm =TRUE)
+trueposdec <- noposdec*ppv
+noposdec
+trueposdec
+```
+ 
+
+## Task 3
+ 
+Take the association between cat ownership `cat` and coffee consumption `COFFEEDRINKSFREQ` and fit the corresponding linear model (see the results table in the article). What is the estimated coefficient for the association and its confidence interval? How do you interpret these values correctly? What do you think about the associated p-value?
+```{r 'lm cat coffee'}
+rawData <- read.csv(here::here("files/docs/04/data/raw_anonymized_data.csv"))
+modelcatcoffee <- lm(COFFEEDRINKSFREQ ~ cat, data=rawData)
+coefcatcoffee <- coef(modelcatcoffee)[2]
+confintcatcoffee <- confint(modelcatcoffee)[2,]
+coefcatcoffee
+confintcatcoffee
+```
+ 
+
+## Task 4 
+ 
+Going back to the PPV calculation write a function that parameterizes the percentage of true associations, the significance level and the power; and illustrate how the PPV depends on these three characteristics.
+
+```{r ppv_function}
+#' Positive Predictive Value
+#'
+#' @param perctrue numeric, percentage of true results
+#' @param siglevel numeric, significance level, default=0.05
+#' @param power numeric, power, default=0.6
+#'
+#' @return numeric
+#' @export
+#'
+#' @examples
+#'  ppv(0.1)
+ppv <- function(perctrue, siglevel = 0.05, power = 0.6){
+  truepos <- perctrue * power
+  falsepos <- (1-perctrue) * siglevel
+  truepos/(truepos + falsepos)
+}
+
+v <- seq(0,1,by=0.001)
+ppvs <- sapply(v, function(p) ppv(p))
+plot(v,ppvs, xlab = "Percentage true values", ylab = "PPV", type="l")
+
+v <- seq(0,.1,by=0.001)
+ppvs <- sapply(v, function(p) ppv(0.1,siglevel=p))
+plot(v,ppvs, xlab = "Significance level", ylab = "PPV", type="l")
+
+v <- seq(.5,1,by=0.001)
+ppvs <- sapply(v, function(p) ppv(0.1,power=p))
+plot(v,ppvs, xlab = "Power", ylab = "PPV", type="l")
+```
+
+ 
+&nbsp;
+
+
+# Submission
+ 
+Add your Rmd file with the name `Homework_03.Rmd` to the `homework` folder of your personal git repository (https://gitlab.uzh.ch/open_science_course/hs22_dcas/username) used in the homework for last week. Also add the R packages you need for the analysis to the file `packages.txt`. Stage the files, commit and push.  
+
+
+1. Push your Rmd file to Gitlab.
+2. Enter the corresponding Gitlab pages URL into the Open edX text box in the next unit.
+
+*Note*: the URL will be of the form `https://opensciencecourse.pages.uzh.ch/hs22_dcas/hs22_dcas/USERNAME_Homework_03.html`, where `USERNAME` is your Gitlab user name. E.g for user `jdoe`: `https://opensciencecourse.pages.uzh.ch/hs22_dcas/hs22_dcas/jdoe_Homework_03.html`
+
+Your submission on Open edX will be peer reviewed. Staff will perform random checks on the peer review.
+
+Your submission on Gitlab will be automatically checked, points from the Open edX assessment may be decreased if your submission is not correct.
+
+&nbsp;
+
+&nbsp;
+
+
+# In-class tasks
+
+## Recall: Positive results
+
+
+![]({{ page.root }}/fig/04-fanellipositive.png){: height="400px"}
+
+D Fanelli https://link.springer.com/article/10.1007/s11192-011-0494-7
+
+In this class session we will explore how such statements as in the graph above can be made and we will look at some research indicating that registered reports may be a solution to the problem.
+
+
+
+
+## Task 1
+
+Read the abstract and the sections "The Current Study", "Sample", "Measures and coding procedure" of
+"An Excess of Positive Results: Comparing the Standard Psychology Literature With Registered Reports" by A Scheel et al. https://journals.sagepub.com/doi/pdf/10.1177/25152459211007467
+
+The preregistration of the study is available here:
+https://osf.io/sy927/
+
+Download or pull the corresponding Github repository containing the data and analysis scripts:
+https://github.com/amscheel/positive_result_rates
+
+&nbsp;
+
+**Question 1**
+What are the two samples of publications that are assessed in the report and how were they obtained?
+
+**Question 2**
+Find the raw data and the corresponding codebook in the Github materials. What is the meaning of the variable `support` in the data sheet and what are its possible values?
+
+**Question 3**
+How did the authors obtain the value of the variable support from the publications in their sample?
+
+**Question 4**
+What is the main message of the publication by A Scheel et al.?
+
+
+&nbsp;
+
+## Task 2
+
+Next we look at four publications from the samples in the report. We will form four ad hoc groups during class to do so. The publications we look at are:
+
+Registered reports: 
+
+1. Online incidental statistical learning of audiovisual word sequences in adults: a registered report   https://royalsocietypublishing.org/doi/pdf/10.1098/rsos.171678
+
+2. Does volunteering improve well-being?  
+https://www.tandfonline.com/doi/full/10.1080/23743603.2016.1273647?journalCode=rrsp20  
+[link to pdf]({{ page.root }}/files/docs/04/RR2-Whillans2016.pdf)
+
+**Question 1a**
+Find the first preregistered hypothesis in the publication. Is it supported by the results?
+
+&nbsp;
+
+Standard reports:
+
+1. Young children's knowledge about the links between writing and languag  
+https://doi.org/10.1017/S0142716416000503  
+[link to pdf]({{ page.root }}/files/docs/04/SR1-Treiman2016.pdf)  
+
+2. Overcome procrastination: Enhancing emotion regulation skills reduce procrastination  	https://www.sciencedirect.com/science/article/pii/S1041608016302187  
+
+**Question 1b**
+Find the first hypothesis (search phrase: test* the hypothes*) in the publication. Is it supported by the results?
+
+
+&nbsp;
+
+## Task 3 (optional, if time allows)
+
+Test if you can reproduce the main analysis using the script `02_quantitative_analyses.R` in the `analysis` folder.
+
+&nbsp;
+
+## Quiz/Open response assessment
+
+Complete the quiz (within an open response assessment) in the next unit during the plenum discussion of Tasks 1 & 2 
+
+
+&nbsp;
+
+&nbsp;
+
+
+
+
+
+
+
+
+
