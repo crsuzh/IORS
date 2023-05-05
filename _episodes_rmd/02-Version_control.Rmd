@@ -1,0 +1,332 @@
+---
+source: Rmd
+title: "Version control"
+teaching: 60
+exercises: 120
+questions: 
+  - " "
+  - " "
+  - " "
+objectives: 
+  - " "
+  - " "
+  - " "
+  - " "
+keypoints:
+  - " "
+  - " "
+  - " "
+---
+
+```{r, include=FALSE}
+source("../bin/chunk-options.R")
+knitr_fig_path("02-")
+```
+
+![]({{ page.root }}/fig/Repro_Kreislauf_horizontal_halb.png){: height="200px"}
+
+# 1. Version control
+
+If you ever were in a situation where a document went back and forth you might have ended up in a situation similar to the one in the following comic:
+
+![](https://swcarpentry.github.io/git-novice/fig/phd101212s.png)
+
+In order to keep track of changes to the document and keep specific versions (since you maybe want to revert to older versions or recover parts of older versions) you probably saved the new document under a new name. After some iterations you could easily end up with dozens of documents with sometimes questionable or at least hard to understand names. Now imagine you have multiple files with different content. **Creating a huge mess becomes basically inevitable.**  
+
+&nbsp;
+
+Version control software can be used to keep the order and help you keep track of all the changes you made. Instead of having multiple documents that are virtually the same a version controlled document consists of **a single document where all the changes that have been made are saved making it easy to go back to old versions**. This naturally also extends to whole directories with multiple files. Version control can be found and applied in many circumstances but it is especially important for software development and data analysis. 
+
+&nbsp;
+
+Multiple concepts and software options are available. One of the most popular software is called **Git** and will be introduced in the following.
+
+&nbsp;
+
+# 2. Introduction to Git
+
+## Install Git
+
+Before we start make sure that you have a current version of Git installed. If not, you can follow the install instruction on the [official website](https://git-scm.com/downloads). If you are using Windows you can also have a look at [gitforwindows.org](https://gitforwindows.org/) for further information. 
+
+
+## Terminal
+
+**The terminal is a textbased interface to your computer. On a Mac the quickest way to open a terminal is to type "terminal" in the Spotlight Search bar. On a Windows computer open "Git bash" which came with the Git installation.**
+
+We will work within the **terminal** (command line, shell), which is a text interface to your computer. The terminal in which Git will be used is usually a linux based shell (also if you use gitforwindows!). It is therefore useful to know a few basic commands to navigate directories: 
+
+- Within the shell you can type `pwd` which prints the working directory, i.e. the absolute path of the directory you are currently located. 
+- The list command `ls` prints all the files and directories at the current location. 
+- The change directory `cd` allows you to move to other locations, e.g. `cd data_dir` moves to the directory called `data_dir` which is a sub-directory at the current location. `cd ..` moves one step up. `~` is the home directory of the current user (e.g. `cd ~` changes the location to the home directory).
+- To create a directory you can use `mkdir` (e.g. `mkdir newdirname`).
+
+For a more detailed introduction see [here](https://swcarpentry.github.io/shell-novice/) or [here](https://ubuntu.com/tutorials/command-line-for-beginners#1-overview).
+
+
+## Git
+
+We start with an example to see how Git works in practice.
+
+## Example
+
+**In a directory of you choice run in your own terminal at the same time:**
+ In this example we first created a new empty directory (e.g. with `mkdir ~/git_example`) and then changed the current working directory to this new directory (e.g. with `cd ~/git_example`). A Git repository can then be initialized in the new directory by running in a terminal (after installing Git). A Git repository is basically the directory containing your project plus additional files that are created under `.git` to keep track of your versions.
+
+**git init**
+
+```
+git init
+```
+```
+## Initialized empty Git repository in /home/user/git_example
+```
+
+**git status**
+
+To check the status of your repository, run
+
+```
+git status
+```
+```
+## On branch master
+## 
+## No commits yet
+## 
+## nothing to commit (create/copy files and use "git add" to track)
+
+```
+
+The first line of the output (`On branch master`) we can ignore for now. The second and third line though concern `commits` and we look closer at these now. 
+
+Git has a graph like structure underneath with nodes and edges. The nodes represent the different states of files while they are changed, i.e. the change made in the file with respect to a previous node. A node corresponds to a commit. Edges represent descendance, i.e. from where a node/commit originates. In our example the graph is at the moment empty since we didn't add anything yet.
+
+To add changes to your repository you need to make changes to your files, i.e. work on your analysis as usual. For example add a file containing the current date, here by "piping" the output of the command `date` with `>` into the file `date.txt`:
+
+**date > date.txt**
+```
+date > date.txt
+```
+
+**git status** 
+check again the status of the repository by running
+```
+git status
+```
+```
+## On branch master
+## 
+## No commits yet
+## 
+## Untracked files:
+##   (use "git add <file>..." to include in what will be committed)
+## 	date.txt
+## 
+## nothing added to commit but untracked files present (use "git add" to track)
+```
+The output looks different than before. The newly created file *date.txt* is listed under *Untracked files*. This means that Git recognized the new file but currently it is not keeping track of changes happening to *date.txt*.
+
+**git add date.txt**
+To make Git track *date.txt* we can add it using
+```
+git add date.txt
+```
+
+**git status**
+Let's check again the status
+
+```
+git status
+```
+```
+## On branch master
+## 
+## No commits yet
+## 
+## Changes to be committed:
+##   (use "git rm --cached <file>..." to unstage)
+## 	new file:   date.txt
+```
+The file *date.txt* is now listed under *Changes to be committed*.
+
+
+(In case you did stage the wrong file you can run `git reset` to unstage, i.e. undo `git add`, all files)
+
+**git commit -m "Add date"**
+As a next step we have to commit the changes. This will create a new node in our graph.
+
+```
+git commit -m "Add date"
+```
+
+If this is the first time you use Git an error will appear asking you to change your Git configuration. To do so run the following two commands (replace *FIRST.LAST@uzh.ch* with your UZH email address, and *UZH_SHORTNAME* with your UZH shortname):
+```
+git config --global user.email "FIRST.LAST@uzh.ch"
+git config --global user.name "UZH_SHORTNAME"
+```
+Then try again. This step is required so Git knows who made changes to the repository.
+
+You saw that commits correspond to the different versions a file or more than one file that you want to track. So when you
+commit your changes, those changes will be saved as a new version. It is mandatory to add
+a commit message. You can either use the *-m "TEXT"* option in the command (as shown above) or
+if you don't specify the *-m* flag a text editor will
+open where you can write down the commit message. Once your are happy with the message
+save and close the open file to proceed with the commit.
+
+Now we have successfully added *date.txt* and it is now tracked.
+
+**git status**
+Lets check again with `git status`. 
+
+```
+git status
+```
+```
+## On branch master
+## nothing to commit, working tree clean
+```
+
+The graph representing the commit history is still very simple, it only contains one node:
+
+```{r, fig.height=1, fig.width=4, echo=FALSE}
+DiagrammeR::grViz("
+digraph git {
+ graph [layout = dot,
+       rankdir = LR]
+       
+  node [shape = circle,
+        fixedsize = true,
+        width = 0.9] // sets as circles
+  C1
+  
+  node [shape = circle,
+        fixedsize = true,
+        width = 0.9,
+        color= white,
+        fontcolor= white] // sets as circles
+  C2 C3
+  
+  C1->C2 [color = white]
+  C2->C3 [color = white]
+}
+")
+```
+C1 is the first commit that we just did. 
+
+**date > date.txt**
+If we now update the file *date.txt* by doing again `date > date.txt` we can see that Git recognizes the changes and *date.txt* is now listed under *Changes not staged for commit*.
+
+**git status**
+```
+git status
+```
+```
+## On branch master
+## Changes not staged for commit:
+##   (use "git add <file>..." to update what will be committed)
+##   (use "git restore <file>..." to discard changes in working directory)
+## 	modified:   date.txt
+## 
+## no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+**git diff date.txt**
+To see differences of *date.txt* compared to the previous version you can run
+
+```
+git diff date.txt
+```
+```
+diff --git a/date.txt b/date.txt
+index 13ea433..6f64b68 100644
+--- a/date.txt
++++ b/date.txt
+@@ -1 +1 @@
+-Mi 13 Okt 2021 12:31:41 CEST
++Mi 13 Okt 2021 12:32:15 CEST
+```
+Differences are shown on a per line basis.The output is a bit cryptic but the important bits are first of all the line *@@ -1 +1 @@*
+which means that the following lines (until the next line starting with *@@*) are the line **1**
+from the old version (*-*) and the line **1** from the new version (*+*).
+So *-Mi 13 Okt 2021 12:31:41 CEST* was the line in the old version and *+Mi 13 Okt 2021 12:32:15 CEST* 
+is the line as it is now.
+
+**git add dat.txt**
+**git commit -m "first change"**
+**git status**
+
+Stage the new version (*git add*) and commit (*git commit*). Check with *git status* that everything is tracked.
+
+Now our graph will look like this:
+
+```{r, fig.height=1, fig.width=4, echo=FALSE}
+DiagrammeR::grViz("
+digraph git {
+ graph [layout = dot,
+       rankdir = LR]
+       
+  node [shape = circle,
+        fixedsize = true,
+        width = 0.9] // sets as circles
+  C1 C2
+  
+  node [shape = circle,
+        fixedsize = true,
+        width = 0.9,
+        color= white,
+        fontcolor= white] // sets as circles
+  C3
+  
+  C1->C2
+  C2->C3 [color = white]
+}
+")
+```
+
+## Exercise
+
+Append a new line to *date.txt* with the content *NEW*. Stage (i.e. `git add`) and commit (i.e. `git commit`). Then remove the just added line (*NEW*) in *date.txt*. Compare differences (*git diff*) and copy the complete line starting with *@@* into the following field: 
+
+Solution: @@ -1,2 +1 @@
+
+
+After this exercise the graph will look like this:
+
+```{r, fig.height=1, fig.width=4, echo=FALSE}
+DiagrammeR::grViz("
+digraph git {
+ graph [layout = dot,
+       rankdir = LR]
+       
+  node [shape = circle,
+        fixedsize = true,
+        width = 0.9] // sets as circles
+  C1 C2 C3
+  
+  C1->C2
+  C2->C3 
+}
+")
+```
+&nbsp;
+
+
+&nbsp;
+
+
+&nbsp;
+
+
+&nbsp;
+
+
+# 3. Remotes
+
+# 4. Push and pull
+
+# 5. RStudio and Git
+
+
+
+
